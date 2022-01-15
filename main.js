@@ -35,6 +35,14 @@ function ingresoDatos (){  // 1ra Funcion---------------------------------------
         correcto=false
         alert("No ingreso un dato ida/vuelta valido");
     } 
+    if (isNaN(precioCombustible)){
+        correcto = false;
+        alert("ingrese bien el precio")
+    }
+    if (isNaN(distanciaParcial)){
+        correcto = false;
+        alert("ingrese bien la distancia")
+    }
 }
 
 function proceso (){ //2da Funcion ----------------------------------------------------------------------
@@ -51,16 +59,32 @@ function proceso (){ //2da Funcion ---------------------------------------------
         }
 }
 
-const costo = (precio, consumo, distancia) => {// 3ra funcion ------------------------------------------------
+/*const costo = (precio, consumo, distancia) => {// 3ra funcion ------------------------------------------------
     return precio * (consumo * distancia);
-}
+}*/
 
+class Viaje{// clase constructora o como se llame --------------------------------------------------
+    constructor (distancia, consumo, precio){
+        this.distancia = distancia;
+        this.consumo = consumo;
+        this.precio = precio;
+    }
+    viajar(){//metodo------------------------------------------------------
+        console.warn(this.precio, this.consumo, this.distancia)
+        return this.precio * (this.consumo * this.distancia)
+    }
+}
 ingresoDatos();
 
-if (correcto){
-    proceso()
-    alert("Vas a gastar $"+ Math.round(costo(precioCombustible,consumoPorKilometro,distanciaTotal)));
 
+console.log(precioCombustible, consumoPorKilometro, distanciaTotal)
+
+
+
+if (correcto){
+    proceso();
+    const viaje1 = new Viaje(distanciaTotal, consumoPorKilometro, precioCombustible);//instancia de objeto--------------
+    alert("Vas a gastar $"+ Math.round(viaje1.viajar()));//llama al metodo------------------------
 }
 else {
     console.log("ingresaste algo mal")
