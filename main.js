@@ -9,26 +9,57 @@ let correcto= true;
 let distanciaParcial;
 let precioCombustible;
 let idaYvuelta;
+let tipoIngreso;
+let tipoVehiculo;
 
 function ingresoDatos (){  // 1ra Funcion----------------------------------------------------------------------------
     precioCombustible =  parseInt(prompt("Ingrese el precio por litro"));
-    medicion = parseInt(prompt("como desea ingresar el consumo? solo números \n 1-(km/l) \n 2-(l/100km)"));
+    tipoIngreso= parseInt(prompt("como desea ingresar el consumo? solo números \n 1-(aproximado) \n 2-(manual)"));
     distanciaParcial = parseInt(prompt("ingrese la distancia en kilometros"));
     idaYvuelta = prompt("viaja ida y vuelta (S/N)");
 
-    if(medicion == "1"){
-        kilometrosPorLitro= parseInt(prompt("ingrese rendimiento por litro"));
-        consumoPorKilometro =  1/kilometrosPorLitro;
-    }
-    else if(medicion == "2"){
-        consumoCadaCien = parseInt(prompt("ingrese el consumo cada 100 kilometros (l/100)"));
-        consumoPorKilometro = consumoCadaCien/100;
-    }
-        else{
+    if(tipoIngreso == 1){
+        tipoVehiculo = prompt("Elija su vehiculo \n 1-(Compacto) \n 2-(Deportivo) \n 3-(Familiar) \n 4-(Todoterreno)")
+        switch(tipoVehiculo){
+            case "1":
+               // consumoPorKilometro = tipoVehiculos[0].consumo; 
+               // consumoPorKilometro = tipoVehiculos[0][1];     probe estas dos maneras y no me anduvieron.
+               consumoPorKilometro = (tipoVehiculos[0]).consumo;
+                break;
+            case "2":
+                consumoPorKilometro = (tipoVehiculos[1]).consumo;
+                break;
+            case "3":
+                consumoPorKilometro = (tipoVehiculos[2]).consumo;
+                break;
+            case "4":
+                consumoPorKilometro = (tipoVehiculos[3]).consumo;
+                break;
+            default:
             correcto = false;
-            alert("No ingreso medicion valida");
+            alert("no ingresaste tipo de vehiculo valido");
         }
-    idaYvuelta = idaYvuelta.toLocaleLowerCase(); 
+    }
+    else if (tipoIngreso == 2){
+            medicion = parseInt(prompt("como desea ingresar el consumo? solo números \n 1-(km/l) \n 2-(l/100km)"));
+            if(medicion == "1"){
+                kilometrosPorLitro= parseInt(prompt("ingrese rendimiento por litro"));
+                consumoPorKilometro =  1/kilometrosPorLitro;
+            }
+            else if(medicion == "2"){
+                consumoCadaCien = parseInt(prompt("ingrese el consumo cada 100 kilometros (l/100)"));
+                consumoPorKilometro = consumoCadaCien/100;
+            }
+                else{
+                    correcto = false;
+                    alert("No ingreso medicion valida");
+                }
+        }
+    else{
+        correcto = false;
+    }
+    
+    idaYvuelta = idaYvuelta.toLowerCase(); 
 
 
     if (idaYvuelta != "s" && idaYvuelta != "n"){
@@ -59,10 +90,6 @@ function proceso (){ //2da Funcion ---------------------------------------------
         }
 }
 
-/*const costo = (precio, consumo, distancia) => {// 3ra funcion ------------------------------------------------
-    return precio * (consumo * distancia);
-}*/
-
 class Viaje{// clase constructora o como se llame --------------------------------------------------
     constructor (distancia, consumo, precio){
         this.distancia = distancia;
@@ -74,12 +101,24 @@ class Viaje{// clase constructora o como se llame ------------------------------
         return this.precio * (this.consumo * this.distancia)
     }
 }
+
+class Vehiculo{
+    constructor (tipo, consumo){
+        this.tipo = tipo;
+        this.consumo = consumo;
+    }
+}
+const vehiculoC = new Vehiculo("compacto",0.06);
+const vehiculoD = new Vehiculo("deportivo",0.1);
+const vehiculoF = new Vehiculo("familiar",0.075);
+const vehiculoT= new Vehiculo("todoterreno",0.09);
+
+const tipoVehiculos = [ ];// creo el array----------------------------------------
+tipoVehiculos.push(vehiculoC,vehiculoD,vehiculoF,vehiculoT); // pusheo los elementos---------------------
+
+
 ingresoDatos();
-
-
 console.log(precioCombustible, consumoPorKilometro, distanciaTotal)
-
-
 
 if (correcto){
     proceso();
@@ -90,3 +129,18 @@ else {
     console.log("ingresaste algo mal")
 }
 
+//a partir de acá es para cumplir los desafios------------------------------------------
+
+let mostrar = tipoVehiculos.find((auto) => auto.consumo >= 0.08)// busca el primero con consumo mayor o igual a 
+
+console.log(mostrar)
+
+mostrar = tipoVehiculos.filter((auto) => auto.tipo != "compacto") // fltra todos los que no sean compacto
+
+console.log(mostrar)
+
+const ventanillasBajas = tipoVehiculos.map((auto) => {// suma un 10 porciento de consumo
+    auto.consumo = auto.consumo * 1.10;
+    return auto
+});
+console.log(ventanillasBajas)
