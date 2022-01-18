@@ -12,18 +12,23 @@ let idaYvuelta;
 let tipoIngreso;
 let tipoVehiculo;
 
+const vehiculoC = new Vehiculo("compacto",0.06);
+const vehiculoD = new Vehiculo("deportivo",0.1);
+const vehiculoF = new Vehiculo("familiar",0.075);
+const vehiculoT= new Vehiculo("todoterreno",0.09);
+
+const tipoVehiculos = [ ];// creo el array----------------------------------------
+tipoVehiculos.push(vehiculoC,vehiculoD,vehiculoF,vehiculoT); // pusheo los elementos---------------------
+
+
 function ingresoDatos (){  // 1ra Funcion----------------------------------------------------------------------------
     precioCombustible =  parseInt(prompt("Ingrese el precio por litro"));
     tipoIngreso= parseInt(prompt("como desea ingresar el consumo? solo números \n 1-(aproximado) \n 2-(manual)"));
-    distanciaParcial = parseInt(prompt("ingrese la distancia en kilometros"));
-    idaYvuelta = prompt("viaja ida y vuelta (S/N)");
-
+    
     if(tipoIngreso == 1){
         tipoVehiculo = prompt("Elija su vehiculo \n 1-(Compacto) \n 2-(Deportivo) \n 3-(Familiar) \n 4-(Todoterreno)")
         switch(tipoVehiculo){
             case "1":
-               // consumoPorKilometro = tipoVehiculos[0].consumo; 
-               // consumoPorKilometro = tipoVehiculos[0][1];     probe estas dos maneras y no me anduvieron.
                consumoPorKilometro = (tipoVehiculos[0]).consumo;
                 break;
             case "2":
@@ -59,6 +64,9 @@ function ingresoDatos (){  // 1ra Funcion---------------------------------------
         correcto = false;
     }
     
+    distanciaParcial = parseInt(prompt("ingrese la distancia en kilometros"));
+    idaYvuelta = prompt("viaja ida y vuelta (S/N)");
+    
     idaYvuelta = idaYvuelta.toLowerCase(); 
 
 
@@ -90,32 +98,6 @@ function proceso (){ //2da Funcion ---------------------------------------------
         }
 }
 
-class Viaje{// clase constructora o como se llame --------------------------------------------------
-    constructor (distancia, consumo, precio){
-        this.distancia = distancia;
-        this.consumo = consumo;
-        this.precio = precio;
-    }
-    viajar(){//metodo------------------------------------------------------
-        console.warn(this.precio, this.consumo, this.distancia)
-        return this.precio * (this.consumo * this.distancia)
-    }
-}
-
-class Vehiculo{
-    constructor (tipo, consumo){
-        this.tipo = tipo;
-        this.consumo = consumo;
-    }
-}
-const vehiculoC = new Vehiculo("compacto",0.06);
-const vehiculoD = new Vehiculo("deportivo",0.1);
-const vehiculoF = new Vehiculo("familiar",0.075);
-const vehiculoT= new Vehiculo("todoterreno",0.09);
-
-const tipoVehiculos = [ ];// creo el array----------------------------------------
-tipoVehiculos.push(vehiculoC,vehiculoD,vehiculoF,vehiculoT); // pusheo los elementos---------------------
-
 
 ingresoDatos();
 console.log(precioCombustible, consumoPorKilometro, distanciaTotal)
@@ -131,16 +113,16 @@ else {
 
 //a partir de acá es para cumplir los desafios------------------------------------------
 
-let mostrar = tipoVehiculos.find((auto) => auto.consumo >= 0.08)// busca el primero con consumo mayor o igual a 
+// let mostrar = tipoVehiculos.find((auto) => auto.consumo >= 0.08)// busca el primero con consumo mayor o igual a 
 
-console.log(mostrar)
+// console.log(mostrar)
 
-mostrar = tipoVehiculos.filter((auto) => auto.tipo != "compacto") // fltra todos los que no sean compacto
+// mostrar = tipoVehiculos.filter((auto) => auto.tipo != "compacto") // fltra todos los que no sean compacto
 
-console.log(mostrar)
+// console.log(mostrar)
 
-const ventanillasBajas = tipoVehiculos.map((auto) => {// suma un 10 porciento de consumo
-    auto.consumo = auto.consumo * 1.10;
-    return auto
-});
-console.log(ventanillasBajas)
+// const ventanillasBajas = tipoVehiculos.map((auto) => {// suma un 10 porciento de consumo
+//     auto.consumo = auto.consumo * 1.10;
+//     return auto
+// });
+// console.log(ventanillasBajas)
