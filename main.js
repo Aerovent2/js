@@ -66,7 +66,7 @@ function ingresoDatos (){  // 1ra Funcion---------------------------------------
     
     distanciaParcial = parseInt(prompt("ingrese la distancia en kilometros"));
     idaYvuelta = prompt("viaja ida y vuelta (S/N)");
-    
+
     idaYvuelta = idaYvuelta.toLowerCase(); 
 
 
@@ -99,17 +99,17 @@ function proceso (){ //2da Funcion ---------------------------------------------
 }
 
 
-ingresoDatos();
-console.log(precioCombustible, consumoPorKilometro, distanciaTotal)
+//ingresoDatos();
+//console.log(precioCombustible, consumoPorKilometro, distanciaTotal)
 
-if (correcto){
-    proceso();
-    const viaje1 = new Viaje(distanciaTotal, consumoPorKilometro, precioCombustible);//instancia de objeto--------------
-    alert("Vas a gastar $"+ Math.round(viaje1.viajar()));//llama al metodo------------------------
-}
-else {
-    console.log("ingresaste algo mal")
-}
+// if (correcto){
+//     proceso();
+//     const viaje1 = new Viaje(distanciaTotal, consumoPorKilometro, precioCombustible);//instancia de objeto--------------
+//     alert("Vas a gastar $"+ Math.round(viaje1.viajar()));//llama al metodo------------------------
+// }
+// else {
+//     console.log("ingresaste algo mal")
+// }
 
 //a partir de acá es para cumplir los desafios------------------------------------------
 
@@ -126,3 +126,16 @@ else {
 //     return auto
 // });
 // console.log(ventanillasBajas)
+
+
+tipoVehiculos.sort((a,b) => {
+    if(a.consumo > b.consumo) {
+        return 1;
+    }
+    if (a.consumo < b.consumo){
+        return -1;
+    }
+    return 0;
+});
+console.log("ordena los objetos del array por consumo")
+console.log(tipoVehiculos);
