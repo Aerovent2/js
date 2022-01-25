@@ -29,7 +29,7 @@ function ingresoDatos (){  // 1ra Funcion---------------------------------------
         tipoVehiculo = prompt("Elija su vehiculo \n 1-(Compacto) \n 2-(Deportivo) \n 3-(Familiar) \n 4-(Todoterreno)")
         switch(tipoVehiculo){
             case "1":
-               consumoPorKilometro = (tipoVehiculos[0]).consumo;
+                consumoPorKilometro = (tipoVehiculos[0]).consumo;
                 break;
             case "2":
                 consumoPorKilometro = (tipoVehiculos[1]).consumo;
@@ -99,43 +99,44 @@ function proceso (){ //2da Funcion ---------------------------------------------
 }
 
 
-//ingresoDatos();
-//console.log(precioCombustible, consumoPorKilometro, distanciaTotal)
+ingresoDatos();
+console.log(precioCombustible, consumoPorKilometro, distanciaTotal)
 
-// if (correcto){
-//     proceso();
-//     const viaje1 = new Viaje(distanciaTotal, consumoPorKilometro, precioCombustible);//instancia de objeto--------------
-//     alert("Vas a gastar $"+ Math.round(viaje1.viajar()));//llama al metodo------------------------
-// }
-// else {
-//     console.log("ingresaste algo mal")
-// }
+if (correcto){
+    proceso();
+    const viaje1 = new Viaje(distanciaTotal, consumoPorKilometro, precioCombustible);//instancia de objeto--------------
+    var resultado = "Vas a gastar $"+ Math.round(viaje1.viajar());//llama al metodo------------------------
+}
+else {
+    console.log("ingresaste algo mal");
+    document.body.setAttribute("id","error");//un poquito de DOM
+    document.title = "ERROR"                 //aca tambien
+}
 
-//a partir de acá es para cumplir los desafios------------------------------------------
+//DOM-------------------------------------
+const h1 = document.createElement("h1");
+h1.setAttribute("class", "fondoGris");
+h1.innerHTML = "Calculo aproximado del gasto en combustible";
+document.body.appendChild(h1);
 
-// let mostrar = tipoVehiculos.find((auto) => auto.consumo >= 0.08)// busca el primero con consumo mayor o igual a 
+const div = document.createElement("div")
+const ul = document.createElement("ul")
+const li = document.createElement("li")
 
-// console.log(mostrar)
+ul.appendChild(li);
+div.appendChild(ul);
+document.body.appendChild(div);
 
-// mostrar = tipoVehiculos.filter((auto) => auto.tipo != "compacto") // fltra todos los que no sean compacto
+const display = [precioCombustible, distanciaTotal, consumoPorKilometro];
 
-// console.log(mostrar)
+for(let i=0; i < display.length; i++){
+    let li = document.createElement("li");
+    li.innerHTML = display[i];
+    li.setAttribute("class", "fondoGris")
+    ul.appendChild(li) 
+}
 
-// const ventanillasBajas = tipoVehiculos.map((auto) => {// suma un 10 porciento de consumo
-//     auto.consumo = auto.consumo * 1.10;
-//     return auto
-// });
-// console.log(ventanillasBajas)
-
-
-tipoVehiculos.sort((a,b) => {
-    if(a.consumo > b.consumo) {
-        return 1;
-    }
-    if (a.consumo < b.consumo){
-        return -1;
-    }
-    return 0;
-});
-console.log("ordena los objetos del array por consumo")
-console.log(tipoVehiculos);
+let h2 = document.createElement("h2")
+h2.innerHTML =  resultado ;
+h2.setAttribute("class", "fondoGris")
+document.body.appendChild(h2);

@@ -1,3 +1,11 @@
 *{
 background-color: black;
 }
+
+.fondoGris{
+    background-color: darkgray;
+}
+
+#error{
+    background-color: red;
+}
