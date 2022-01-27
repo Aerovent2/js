@@ -1,142 +1,159 @@
 
 //calcula el costo de combustible segun los datos ingresados
-
-let kilometrosPorLitro;
-let consumoCadaCien;
-let consumoPorKilometro;
-let distanciaTotal;
+//Variables Globales
+let tipoVehiculo = "a";
+let precioComb = 0;
+let tipoConsumo = 0;
+let consumoPorKilometro = 0;
+let distanciaTotal= 0;
+let costoViaje = 0;
 let correcto= true;
-let distanciaParcial;
-let precioCombustible;
-let idaYvuelta;
-let tipoIngreso;
-let tipoVehiculo;
 
+//Objetos
 const vehiculoC = new Vehiculo("compacto",0.06);
 const vehiculoD = new Vehiculo("deportivo",0.1);
 const vehiculoF = new Vehiculo("familiar",0.075);
 const vehiculoT= new Vehiculo("todoterreno",0.09);
 
-const tipoVehiculos = [ ];// creo el array----------------------------------------
-tipoVehiculos.push(vehiculoC,vehiculoD,vehiculoF,vehiculoT); // pusheo los elementos---------------------
+const tipoVehiculos = [ ];
+tipoVehiculos.push(vehiculoC,vehiculoD,vehiculoF,vehiculoT); 
 
 
-function ingresoDatos (){  // 1ra Funcion----------------------------------------------------------------------------
-    precioCombustible =  parseInt(prompt("Ingrese el precio por litro"));
-    tipoIngreso= parseInt(prompt("como desea ingresar el consumo? solo números \n 1-(aproximado) \n 2-(manual)"));
-    
-    if(tipoIngreso == 1){
-        tipoVehiculo = prompt("Elija su vehiculo \n 1-(Compacto) \n 2-(Deportivo) \n 3-(Familiar) \n 4-(Todoterreno)")
-        switch(tipoVehiculo){
-            case "1":
-                consumoPorKilometro = (tipoVehiculos[0]).consumo;
-                break;
-            case "2":
-                consumoPorKilometro = (tipoVehiculos[1]).consumo;
-                break;
-            case "3":
-                consumoPorKilometro = (tipoVehiculos[2]).consumo;
-                break;
-            case "4":
-                consumoPorKilometro = (tipoVehiculos[3]).consumo;
-                break;
-            default:
-            correcto = false;
-            alert("no ingresaste tipo de vehiculo valido");
+//Selectores--------------------------------------------------------------------------------
+const botonClick = document.querySelector("#boton-click");
+const inputPrecio= document.querySelector("#inputPrecio");
+const vehiculo = document.getElementsByName('vehiculo');
+const manual = document.querySelector("#manual");
+const form = document.querySelector("form");
+const consumo = document.getElementsByName('consumo');
+const inputConsumo = document.querySelector("#inputCons");
+const inputDistancia = document.querySelector("#distancia")
+const iV= document.querySelector("#iV")
+const h3 = document.querySelector("h3")
+const botonReset = document.querySelector("#boton-reset")
+
+//Funciones-------------------------------------------------------------------------
+const radioVehiculo = ()=>{
+    for(i=0; i<vehiculo.length; i++){
+
+        if(vehiculo[i].checked){
+
+        tipoVehiculo=vehiculo[i].value;
         }
-    }
-    else if (tipoIngreso == 2){
-            medicion = parseInt(prompt("como desea ingresar el consumo? solo números \n 1-(km/l) \n 2-(l/100km)"));
-            if(medicion == "1"){
-                kilometrosPorLitro= parseInt(prompt("ingrese rendimiento por litro"));
-                consumoPorKilometro =  1/kilometrosPorLitro;
-            }
-            else if(medicion == "2"){
-                consumoCadaCien = parseInt(prompt("ingrese el consumo cada 100 kilometros (l/100)"));
-                consumoPorKilometro = consumoCadaCien/100;
-            }
-                else{
-                    correcto = false;
-                    alert("No ingreso medicion valida");
-                }
-        }
-    else{
-        correcto = false;
-    }
-    
-    distanciaParcial = parseInt(prompt("ingrese la distancia en kilometros"));
-    idaYvuelta = prompt("viaja ida y vuelta (S/N)");
-
-    idaYvuelta = idaYvuelta.toLowerCase(); 
-
-
-    if (idaYvuelta != "s" && idaYvuelta != "n"){
-        correcto=false
-        alert("No ingreso un dato ida/vuelta valido");
-    } 
-    if (isNaN(precioCombustible)){
-        correcto = false;
-        alert("ingrese bien el precio")
-    }
-    if (isNaN(distanciaParcial)){
-        correcto = false;
-        alert("ingrese bien la distancia")
     }
 }
 
-function proceso (){ //2da Funcion ----------------------------------------------------------------------
-    switch(idaYvuelta){
-        case "s":
-            distanciaTotal = distanciaParcial *2;
+const radioConsumo = ()=>{
+    for(i=0; i<consumo.length; i++){
+
+        if(consumo[i].checked){
+
+        tipoConsumo=consumo[i].value;
+        }
+    }
+    if (tipoConsumo == 1){
+        consumoPorKilometro = 1/inputConsumo.value;
+    }
+    else if (tipoConsumo == 2){
+        consumoPorKilometro = inputConsumo.value/100;
+    }
+    else {
+        alert("ingrese consumo valido");
+    }
+}
+
+const consumoPorKm = ()=>{
+    switch(tipoVehiculo){
+        case "c":
+            consumoPorKilometro = (tipoVehiculos[0]).consumo;
             break;
-        case "n":
-            distanciaTotal = distanciaParcial;
+        case "d":
+            consumoPorKilometro = (tipoVehiculos[1]).consumo;
             break;
+        case "f":
+            consumoPorKilometro = (tipoVehiculos[2]).consumo;
+            break;
+        case "t":
+            consumoPorKilometro = (tipoVehiculos[3]).consumo;
+            break;
+        case "o":
+            radioConsumo()
+            console.log("elegiste opcion manual");
+            break;    
         default:
-            distanciaTotal = distanciaParcial;
-            console.log("no deberias estar viendo esto");
-        }
+        alert("no ingresaste tipo de vehiculo valido");
+    }
+}
+const distancia =()=>{
+    if(iV.checked){
+        distanciaTotal = inputDistancia.value*2;
+    }
+    else{
+        distanciaTotal= inputDistancia.value;
+    }
 }
 
-
-ingresoDatos();
-console.log(precioCombustible, consumoPorKilometro, distanciaTotal)
-
-if (correcto){
-    proceso();
-    const viaje1 = new Viaje(distanciaTotal, consumoPorKilometro, precioCombustible);//instancia de objeto--------------
-    var resultado = "Vas a gastar $"+ Math.round(viaje1.viajar());//llama al metodo------------------------
+const costo = ()=>{
+    costoViaje= Math.round(precioComb *(distanciaTotal * consumoPorKilometro ));
+    h3.innerHTML = costoViaje;
 }
-else {
-    console.log("ingresaste algo mal");
-    document.body.setAttribute("id","error");//un poquito de DOM
-    document.title = "ERROR"                 //aca tambien
+const limpiar = ()=>{
+    tipoVehiculo = "a";
+    precioComb = 0;
+    tipoConsumo = 0;
+    consumoPorKilometro = 0;
+    distanciaTotal= 0;
+    costoViaje = 0;
 }
 
-//DOM-------------------------------------
-const h1 = document.createElement("h1");
-h1.setAttribute("class", "fondoGris");
-h1.innerHTML = "Calculo aproximado del gasto en combustible";
-document.body.appendChild(h1);
-
-const div = document.createElement("div")
-const ul = document.createElement("ul")
-const li = document.createElement("li")
-
-ul.appendChild(li);
-div.appendChild(ul);
-document.body.appendChild(div);
-
-const display = [precioCombustible, distanciaTotal, consumoPorKilometro];
-
-for(let i=0; i < display.length; i++){
-    let li = document.createElement("li");
-    li.innerHTML = display[i];
-    li.setAttribute("class", "fondoGris")
-    ul.appendChild(li) 
+const validar = ()=>{
+    console.log("iniciaValidar")
+    if(inputPrecio.value == "" || inputPrecio.value == NaN){
+        alert("ingrese precio valido");
+        console.log("inputprecio = " + inputPrecio.value);
+        correcto= false;
+    }
+        
+    if(inputDistancia.value == "" || inputDistancia.value == NaN){
+        alert("ingrese distancia valida");
+        console.log("inputdistancia = " + inputDistancia.value);
+        correcto = false;
+    }
+    
+    if(tipoVehiculo == "a" || tipoVehiculo == null){
+        alert("elija el tipo de vehiculo");
+        console.log("tipovehiculo = " + tipoVehiculo)
+        correcto = false;
+    }
+    
+    if (correcto == false){
+        console.log("no paso validacion");
+    }
 }
+//eventos--------------------------------------------------------
+form.addEventListener("change", ()=>{
+    radioVehiculo();
+    if (tipoVehiculo == "o"){
+        manual.removeAttribute("class","invisible");
+    }
+    else{
+        manual.setAttribute("class","invisible");
+    }
+})
 
-let h2 = document.createElement("h2")
-h2.innerHTML =  resultado ;
-h2.setAttribute("class", "fondoGris")
-document.body.appendChild(h2);
+botonClick.addEventListener("click", (evt)=>{
+    evt.preventDefault();
+    validar()
+    console.log("correcto" + correcto);
+    if(correcto){
+        precioComb= inputPrecio.value;
+        consumoPorKm();
+        distancia();
+        costo();
+    }
+})
+
+botonReset.addEventListener("click", ()=>{
+    limpiar();
+    h3.innerHTML = "";
+})

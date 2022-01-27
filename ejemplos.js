@@ -2,6 +2,9 @@
 // Heffel Leonardo
 // pedacitos de codigo y anotaciones
 //DOM
+const h1 = document.querySelector("#id")
+const p = document.querySelectorAll(".class")
+
 const th = document.getElementsByTagName("th");
 const titulos = ["Nombre", "Pais", "Fruver", "Color", "Comida"];
 let i =0;

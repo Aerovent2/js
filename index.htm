@@ -8,8 +8,53 @@
     <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
-    
-    
+<section>
+    <h1>Calculo de gasto en combustible</h1>
+
+    <form action="" name="form">
+        <label for="inputPrecio">Ingrese el precio por litro</label><br>
+        <input type="number" name="precio" id="inputPrecio">
+        
+        <p >Selecione el tipo de Vehiculo</p>
+        <input type="radio" id="inputCompacto" name="vehiculo" value="c">
+        <label for="inputCompacto">Compacto</label><br>
+
+        <input type="radio" id="inputDeportivo" name="vehiculo" value="d">
+        <label for="inputDeportivo">Deportivo</label><br>
+
+        <input type="radio" id="inputFamiliar" name="vehiculo" value="f">
+        <label for="inputFamiliar">Familiar</label><br>
+
+        <input type="radio" id="inputTodoterreno" name="vehiculo" value="t">
+        <label for="inputTodoterreno">Todoterreno</label><br>
+
+        <input type="radio" id="inputManual" name="vehiculo" value="o">
+        <label for="inputManual">Otro</label><br>
+
+        <div id="manual" class="invisible">
+            <p >Selecione una opcion</p>
+            <input type="radio" id="kml" name="consumo" value="1">
+            <label for="kml">Km/L</label><br>
+            <input type="radio" id="lcC" name="consumo" value="2">
+            <label for="lcC">Litros cada 100 km</label><br>
+            <label for="inputCons">Ingrese el Cosumo de su vehiculo</label><br>
+            <input type="number" name="cons" id="inputCons"><br>
+        </div>
+
+        <label for="distancia">Ingrese la distancia</label><br>
+        <input type="number" name="distancia" id="distancia"><br>
+
+        <input type="checkbox" id="iV" name="iV" value="s">
+        <label for="iV"> Ida y Vuelta?</label><br>
+        
+        <button id="boton-click">Calcular</button><br>
+        <input id="boton-reset" type="reset" value="Reset">
+    </form>
+    <h2>Vas a gastar</h2>
+    <h3></h3>
+</section>
+
+
     <script src="objetos.js"></script>
     <script src="main.js"></script>
 </body>
