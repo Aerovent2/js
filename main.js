@@ -1,7 +1,7 @@
 
 //calcula el costo de combustible segun los datos ingresados
 //Variables Globales
-let tipoVehiculo = "a";
+let tipoVehiculo = "c";
 let precioComb = 0;
 let tipoConsumo = 0;
 let consumoPorKilometro = 0;
@@ -27,10 +27,11 @@ const manual = document.querySelector("#manual");
 const form = document.querySelector("form");
 const consumo = document.getElementsByName('consumo');
 const inputConsumo = document.querySelector("#inputCons");
-const inputDistancia = document.querySelector("#distancia")
-const iV= document.querySelector("#iV")
-const h3 = document.querySelector("h3")
-const botonReset = document.querySelector("#boton-reset")
+const inputDistancia = document.querySelector("#distancia");
+const iV= document.querySelector("#iV");
+const gastar = document.querySelector("#gastar");
+const botonReset = document.querySelector("#boton-reset");
+const h3 = document.querySelector("h3");
 
 //Funciones-------------------------------------------------------------------------
 const radioVehiculo = ()=>{
@@ -58,7 +59,7 @@ const radioConsumo = ()=>{
         consumoPorKilometro = inputConsumo.value/100;
     }
     else {
-        alert("ingrese consumo valido");
+        console.log("ingrese consumo valido");
     }
 }
 
@@ -77,11 +78,11 @@ const consumoPorKm = ()=>{
             consumoPorKilometro = (tipoVehiculos[3]).consumo;
             break;
         case "o":
-            radioConsumo()
+            radioConsumo();
             console.log("elegiste opcion manual");
             break;    
         default:
-        alert("no ingresaste tipo de vehiculo valido");
+        console.log("no ingresaste tipo de vehiculo valido");
     }
 }
 const distancia =()=>{
@@ -95,39 +96,40 @@ const distancia =()=>{
 
 const costo = ()=>{
     costoViaje= Math.round(precioComb *(distanciaTotal * consumoPorKilometro ));
-    h3.innerHTML = costoViaje;
+    gastar.innerHTML =`$ ${costoViaje}`;
 }
+
 const limpiar = ()=>{
-    tipoVehiculo = "a";
+    tipoVehiculo = "c";
     precioComb = 0;
     tipoConsumo = 0;
     consumoPorKilometro = 0;
     distanciaTotal= 0;
     costoViaje = 0;
+    correcto = true;
+    gastar.innerHTML = "$.......";
+    manual.setAttribute("class","invisible");
+    botonClick.removeAttribute("disabled");
+    console.clear ();
 }
 
 const validar = ()=>{
     console.log("iniciaValidar")
-    if(inputPrecio.value == "" || inputPrecio.value == NaN){
-        alert("ingrese precio valido");
+    if(inputPrecio.value == "" || inputPrecio.value == NaN || inputPrecio.value <= 0 ){
+        console.log("no ingreso precio valido");
         console.log("inputprecio = " + inputPrecio.value);
         correcto= false;
     }
         
-    if(inputDistancia.value == "" || inputDistancia.value == NaN){
-        alert("ingrese distancia valida");
+    if(inputDistancia.value == "" || inputDistancia.value == NaN || inputDistancia.value <= 0 ){
+        console.log("no ingreso distancia valida");
         console.log("inputdistancia = " + inputDistancia.value);
         correcto = false;
     }
-    
-    if(tipoVehiculo == "a" || tipoVehiculo == null){
-        alert("elija el tipo de vehiculo");
-        console.log("tipovehiculo = " + tipoVehiculo)
-        correcto = false;
-    }
-    
+        
     if (correcto == false){
         console.log("no paso validacion");
+        h3.innerHTML =`Completa todos los campos (solo numeros positivos)`;
     }
 }
 //eventos--------------------------------------------------------
@@ -143,7 +145,7 @@ form.addEventListener("change", ()=>{
 
 botonClick.addEventListener("click", (evt)=>{
     evt.preventDefault();
-    validar()
+    validar();
     console.log("correcto" + correcto);
     if(correcto){
         precioComb= inputPrecio.value;
@@ -151,9 +153,9 @@ botonClick.addEventListener("click", (evt)=>{
         distancia();
         costo();
     }
-})
+    botonClick.setAttribute( "disabled", true) ;
+});
 
 botonReset.addEventListener("click", ()=>{
     limpiar();
-    h3.innerHTML = "";
-})
+});

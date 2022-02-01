@@ -5,56 +5,91 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mi Primer App</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="estilos.css">
 </head>
-<body>
-<section>
-    <h1>Calculo de gasto en combustible</h1>
+<body class="">
+<section class=" container  z-depth-5 deep-orange lighten-4">
+    <h1 class="center-align">Cálculo de gasto en combustible</h1>
 
-    <form action="" name="form">
-        <label for="inputPrecio">Ingrese el precio por litro</label><br>
-        <input type="number" name="precio" id="inputPrecio">
-        
-        <p >Selecione el tipo de Vehiculo</p>
-        <input type="radio" id="inputCompacto" name="vehiculo" value="c">
-        <label for="inputCompacto">Compacto</label><br>
+    <form  class= "container " action="" name="form">
+        <div class="input-field col s6">
+            <label for="inputPrecio">Ingrese el precio por litro</label><br>
+            <input class="validate" type="number" name="precio" id="inputPrecio">
+        </div>
+        <p >Selecione el tipo de Vehículo</p>
+        <label>
+            <input class="with-gap" type="radio" id="inputCompacto" name="vehiculo" value="c" checked>
+            <span>Compacto</span>
+        </label><br>
 
-        <input type="radio" id="inputDeportivo" name="vehiculo" value="d">
-        <label for="inputDeportivo">Deportivo</label><br>
+        <label>
+            <input class="with-gap" type="radio" id="inputDeportivo" name="vehiculo" value="d">
+            <span>Deportivo</span> 
+        </label><br>
 
-        <input type="radio" id="inputFamiliar" name="vehiculo" value="f">
-        <label for="inputFamiliar">Familiar</label><br>
+        <label>
+            <input class="with-gap" type="radio" id="inputFamiliar" name="vehiculo" value="f">
+            <span> Familiar</span>
+        </label><br>
 
-        <input type="radio" id="inputTodoterreno" name="vehiculo" value="t">
-        <label for="inputTodoterreno">Todoterreno</label><br>
+        <label>
+            <input class="with-gap" type="radio" id="inputTodoterreno" name="vehiculo" value="t">
+            <span> Todoterreno</span>
+        </label><br>
 
-        <input type="radio" id="inputManual" name="vehiculo" value="o">
-        <label for="inputManual">Otro</label><br>
+        <label>
+            <input class="with-gap" type="radio" id="inputManual" name="vehiculo" value="o">
+            <span> Otro</span>
+        </label><br>
 
-        <div id="manual" class="invisible">
-            <p >Selecione una opcion</p>
-            <input type="radio" id="kml" name="consumo" value="1">
-            <label for="kml">Km/L</label><br>
-            <input type="radio" id="lcC" name="consumo" value="2">
-            <label for="lcC">Litros cada 100 km</label><br>
-            <label for="inputCons">Ingrese el Cosumo de su vehiculo</label><br>
-            <input type="number" name="cons" id="inputCons"><br>
+        <div id="manual" class=" invisible">
+            <p >Selecione una opción</p>
+            <label>
+                <input class="with-gap" checked type="radio" id="kml" name="consumo" value="1">
+                <span> Km/L</span>
+            </label><br>
+            <label>
+                <input class="with-gap" type="radio" id="lcC" name="consumo" value="2">
+                <span> Litros cada 100 km</span>
+            </label><br>
+
+            <div class="input-field col s6">
+                <label for="inputCons">Ingrese el Cosumo de su vehículo</label><br>
+                <input class="validate" type="number" name="cons" id="inputCons"><br>
+            </div>
         </div>
 
-        <label for="distancia">Ingrese la distancia</label><br>
-        <input type="number" name="distancia" id="distancia"><br>
-
-        <input type="checkbox" id="iV" name="iV" value="s">
-        <label for="iV"> Ida y Vuelta?</label><br>
+        <div class="input-field col s6">
+            <label for="distancia">Ingrese la distancia</label><br>
+            <input class="validate"  type="number" name="distancia" id="distancia"><br>
+        </div>
         
-        <button id="boton-click">Calcular</button><br>
-        <input id="boton-reset" type="reset" value="Reset">
+        <label for="iV"> Ida y Vuelta?</label><br>
+        <div class="switch">
+            <label>
+                No
+                <input type="checkbox" id="iV" name="iV" value="s">
+                <span class="lever"></span>
+                Si
+            </label><br>
+        </div>
+
+        <button class="btn waves-effect waves-light pulse" id="boton-click">Calcular
+            <i class="material-icons right">local_gas_station</i>
+        </button>
+        
+        <input id="boton-reset" class="waves-effect waves-light btn right" type="reset" value="Nuevo" >
+        
+        
     </form>
-    <h2>Vas a gastar</h2>
-    <h3></h3>
+    <h2 class="center-align">Vas a gastar <span id="gastar">$.......</span></h2>
+    <h3 class="red-text center-align"></h3>
 </section>
 
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="objetos.js"></script>
     <script src="main.js"></script>
 </body>
