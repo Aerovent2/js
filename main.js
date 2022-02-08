@@ -132,6 +132,27 @@ const validar = ()=>{
         h3.innerHTML =`Completa todos los campos (solo numeros positivos)`;
     }
 }
+
+const guardarLS = ()=>{  //aplico un poco de local storage y JSON---------------------
+    let viaje = {precioComb, consumoPorKilometro, distanciaTotal, costoViaje};
+    const enJSON = JSON.stringify(viaje);
+    localStorage.setItem(`${localStorage.length+1}`, enJSON);
+}
+
+const viajesAnteriores =  ()=>{// localStorage y JSON(trae objetos )-------------------------
+    if(localStorage.length > 0 ){
+        for(let i = 0; i < localStorage.length; i++){
+            let clave = localStorage.key(i);
+            let viaje =JSON.parse(localStorage.getItem(clave));
+                                    //-----------Jquery (crea elementos HTML)-----------------------
+            $(".viajes").append(`
+            <h4>Viaje Nº${clave}</h4><br>
+            <p><b>Precio del Combustible:</b> $${viaje.precioComb} <b>Distancia:</b> ${viaje.distanciaTotal}Km. <b>Gasto Estimado:</b> $${viaje.costoViaje}</p><br>
+            `);
+        }
+        
+    }
+}
 //eventos--------------------------------------------------------
 form.addEventListener("change", ()=>{
     radioVehiculo();
@@ -152,10 +173,24 @@ botonClick.addEventListener("click", (evt)=>{
         consumoPorKm();
         distancia();
         costo();
+        guardarLS();
     }
     botonClick.setAttribute( "disabled", true) ;
 });
 
-botonReset.addEventListener("click", ()=>{
+//botonReset.addEventListener("click", ()=>{
+//    limpiar();
+//});
+
+
+//jQuery (eventos)-----------------------------------------
+$(document).ready((function(){
+    console.log("jquery activado");
+    viajesAnteriores();
+}));
+
+$("#boton-reset").click((e)=> {
     limpiar();
+    $(".viajes").empty();
+    viajesAnteriores();
 });
