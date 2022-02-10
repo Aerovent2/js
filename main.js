@@ -107,6 +107,7 @@ const limpiar = ()=>{
     distanciaTotal= 0;
     costoViaje = 0;
     correcto = true;
+    h3.innerHTML =``;
     gastar.innerHTML = "$.......";
     manual.setAttribute("class","invisible");
     botonClick.removeAttribute("disabled");
@@ -146,12 +147,22 @@ const viajesAnteriores =  ()=>{// localStorage y JSON(trae objetos )------------
             let viaje =JSON.parse(localStorage.getItem(clave));
                                     //-----------Jquery (crea elementos HTML)-----------------------
             $(".viajes").append(`
-            <h4>Viaje Nº${clave}</h4><br>
-            <p><b>Precio del Combustible:</b> $${viaje.precioComb} <b>Distancia:</b> ${viaje.distanciaTotal}Km. <b>Gasto Estimado:</b> $${viaje.costoViaje}</p><br>
-            `);
+            <div >
+                    <p class="este"><b>Precio del Combustible:</b> $${viaje.precioComb} <b>Distancia:</b> ${viaje.distanciaTotal}Km. <b>Gasto Estimado:</b> $${viaje.costoViaje}</p><br>
+            </div>`);
         }
-        
+        animacion(2000)
     }
+}
+
+const animacion= (ms)=>{//-----animaciones con jquery----
+    $(".viajes").slideDown(ms, ()=>{//1er callback ----- --
+        $(".viajes div:nth-child(odd)").css("color", "green");
+        $(".viajes div:nth-child(even)").css("color", "blue");
+        $(`.este`).animate( {opacity:"1"}, ms*2, ()=>{//2do callback--------
+            $(".viajes div").css("margin-top","5px")
+        });
+    })
 }
 //eventos--------------------------------------------------------
 form.addEventListener("change", ()=>{
@@ -178,14 +189,11 @@ botonClick.addEventListener("click", (evt)=>{
     botonClick.setAttribute( "disabled", true) ;
 });
 
-//botonReset.addEventListener("click", ()=>{
-//    limpiar();
-//});
-
 
 //jQuery (eventos)-----------------------------------------
 $(document).ready((function(){
     console.log("jquery activado");
+    $(`.viajes`).hide();
     viajesAnteriores();
 }));
 
