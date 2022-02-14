@@ -1,0 +1,5 @@
+[{"tipo": "compacto", "consumo":"0.06"},
+    {"tipo": "deportivo", "consumo":"0.1"},
+    {"tipo": "familiar", "consumo":"0.075"},
+    {"tipo": "todoterreno", "consumo":"0.09"}
+]

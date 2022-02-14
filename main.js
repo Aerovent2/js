@@ -8,15 +8,18 @@ let consumoPorKilometro = 0;
 let distanciaTotal= 0;
 let costoViaje = 0;
 let correcto= true;
+const ruta ="tipoVehiculo.json"
+const tipoVehiculosO = [ ];
+const tipoVehiculos = [ ];
 
-//Objetos
+//Objetos------------------------------
 const vehiculoC = new Vehiculo("compacto",0.06);
 const vehiculoD = new Vehiculo("deportivo",0.1);
 const vehiculoF = new Vehiculo("familiar",0.075);
 const vehiculoT= new Vehiculo("todoterreno",0.09);
 
-const tipoVehiculos = [ ];
-tipoVehiculos.push(vehiculoC,vehiculoD,vehiculoF,vehiculoT); 
+
+tipoVehiculosO.push(vehiculoC,vehiculoD,vehiculoF,vehiculoT); 
 
 
 //Selectores--------------------------------------------------------------------------------
@@ -66,16 +69,16 @@ const radioConsumo = ()=>{
 const consumoPorKm = ()=>{
     switch(tipoVehiculo){
         case "c":
-            consumoPorKilometro = (tipoVehiculos[0]).consumo;
+            consumoPorKilometro = (tipoVehiculos[0][0]).consumo;
             break;
         case "d":
-            consumoPorKilometro = (tipoVehiculos[1]).consumo;
+            consumoPorKilometro = (tipoVehiculos[0][1]).consumo;
             break;
         case "f":
-            consumoPorKilometro = (tipoVehiculos[2]).consumo;
+            consumoPorKilometro = (tipoVehiculos[0][2]).consumo;
             break;
         case "t":
-            consumoPorKilometro = (tipoVehiculos[3]).consumo;
+            consumoPorKilometro = (tipoVehiculos[0][3]).consumo;
             break;
         case "o":
             radioConsumo();
@@ -142,6 +145,7 @@ const guardarLS = ()=>{  //aplico un poco de local storage y JSON---------------
 
 const viajesAnteriores =  ()=>{// localStorage y JSON(trae objetos )-------------------------
     if(localStorage.length > 0 ){
+
         for(let i = 0; i < localStorage.length; i++){
             let clave = localStorage.key(i);
             let viaje =JSON.parse(localStorage.getItem(clave));
@@ -157,10 +161,10 @@ const viajesAnteriores =  ()=>{// localStorage y JSON(trae objetos )------------
 
 const animacion= (ms)=>{//-----animaciones con jquery----
     $(".viajes").slideDown(ms, ()=>{//1er callback ----- --
-        $(".viajes div:nth-child(odd)").css("color", "green");
-        $(".viajes div:nth-child(even)").css("color", "blue");
+        $(".viajes div:nth-child(odd)").css({"background-color":"lightgreen","border-radius": "10%" });
+        $(".viajes div:nth-child(even)").css({"background-color":"lightblue","border-radius": "10%" });
         $(`.este`).animate( {opacity:"1"}, ms*2, ()=>{//2do callback--------
-            $(".viajes div").css("margin-top","5px")
+            $(".viajes div").css({"margin":"2px","border-radius": "100%" })
         });
     })
 }
@@ -195,6 +199,8 @@ $(document).ready((function(){
     console.log("jquery activado");
     $(`.viajes`).hide();
     viajesAnteriores();
+
+    
 }));
 
 $("#boton-reset").click((e)=> {
@@ -202,3 +208,14 @@ $("#boton-reset").click((e)=> {
     $(".viajes").empty();
     viajesAnteriores();
 });
+
+// $.ajax({  //-------------------esto no me anduvo :(
+//     method: "POST",
+//     url: ruta,
+//     data: JSON.stringify(tipoVehiculosO),
+// })
+
+//Fetch API------------------------------------
+fetch(ruta)
+.then((response)=>response.json())
+.then((json)=>tipoVehiculos.push(json), console.log(tipoVehiculos));

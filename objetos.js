@@ -10,7 +10,7 @@
 //     }
 // }
 
-class Vehiculo{
+class Vehiculo{ 
     constructor (tipo, consumo){
         this.tipo = tipo;
         this.consumo = consumo;
