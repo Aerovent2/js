@@ -10,8 +10,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link rel="stylesheet" href="estilos.css">
 </head>
-<body class="">
-<section class=" container  z-depth-5 deep-orange lighten-4">
+<body >
+<section class=" container  z-depth-5 ">
     <h1 class="center-align">Cálculo de gasto en combustible</h1>
 
     <form  class= "container " action="" name="form">
@@ -77,23 +77,73 @@
             </label><br>
         </div>
 
-        <button class="btn waves-effect waves-light pulse" id="boton-click">Calcular
+        <button class="btn waves-effect waves-light pulse" id="boton-calcular">Calcular
             <i class="material-icons right">local_gas_station</i>
         </button>
         <input id="boton-reset" class="waves-effect waves-light btn right" type="reset" value="Nuevo" >
-
+        
+        
     </form>
     <h2 class="center-align">Vas a gastar <span id="gastar">$.......</span></h2>
     <h3 class="red-text center-align"></h3>
-    
-    <div class="viajes container center-align">
+    <div class="container">
+        <!-- Modal Trigger -->
+        <button id="btn-viajes" data-target="modal1" class="btn modal-trigger waves-effect waves-light btn left">Historico</button>
+        <button id="btn-registro" data-target="modal2" class="btn modal-trigger waves-effect waves-light btn center-align ">Desea Registrarse?</button>
+        <button id="btn-listaUsuarios" data-target="modal3" class="btn modal-trigger waves-effect waves-light btn right">Registro de Usuarios</button>
+
         
+        <!-- Modal Structure -->
+        <!-- lista viajes -->
+        <div id="modal1" class="modal"> 
+            <div class="modal-content">
+                <h4>Viajes Anteriores</h4>
+                <div class="viajes container "></div>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
+            </div>
+        </div>
+        <!-- input registro -->
+        <div id="modal2" class="modal">
+            <div class="modal-content">
+                <form action="">
+                    <div class="input-field col s6">
+                        <label for="inputNombre">Ingrese su Nombre</label><br>
+                        <input class="validate" type="text" name="nombre" id="inputNombre">
+                    </div>
+                    <div class="input-field col s6">
+                        <label for="inputDominio">Ingrese el dominio de su vehiculo</label><br>
+                        <input class="validate" type="text" name="dominio" id="inputDominio">
+                    </div>
+                    <div class="input-field col s6">
+                        <label for="inputEmail">Ingrese direccion de correo electronico</label><br>
+                        <input class="validate" type="email" name="email" id="inputEmail">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" id="btn-guardarUsuario" class=" waves-effect waves-green btn-flat">Guardar</a>
+                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
+            </div>
+        </div>
+        <!-- muestra usuarios registrados -->
+        <div id="modal3" class="modal">
+            <div class="modal-content">
+                <h4>Usuarios</h4>
+                <div class="usuarios container center-align"></div>
+            </div>
+            <div class="modal-footer">
+                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
+            </div>
+        </div>
     </div>
 </section>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    
+    
     <script src="jquery.js"></script>
-    <script src="objetos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="main.js"></script>
 </body>
 </html>

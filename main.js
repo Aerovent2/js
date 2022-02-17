@@ -1,4 +1,3 @@
-
 //calcula el costo de combustible segun los datos ingresados
 //Variables Globales
 let tipoVehiculo = "c";
@@ -9,22 +8,14 @@ let distanciaTotal= 0;
 let costoViaje = 0;
 let correcto= true;
 const ruta ="tipoVehiculo.json"
-const tipoVehiculosO = [ ];
 const tipoVehiculos = [ ];
 
-//Objetos------------------------------
-const vehiculoC = new Vehiculo("compacto",0.06);
-const vehiculoD = new Vehiculo("deportivo",0.1);
-const vehiculoF = new Vehiculo("familiar",0.075);
-const vehiculoT= new Vehiculo("todoterreno",0.09);
-
-
-tipoVehiculosO.push(vehiculoC,vehiculoD,vehiculoF,vehiculoT); 
-
-
 //Selectores--------------------------------------------------------------------------------
-const botonClick = document.querySelector("#boton-click");
+const botonCalcular = document.querySelector("#boton-calcular");
 const inputPrecio= document.querySelector("#inputPrecio");
+const inputNombre= document.querySelector("#inputNombre");
+const inputDominio= document.querySelector("#inputDominio");
+const inputEmail= document.querySelector("#inputEmail");
 const vehiculo = document.getElementsByName('vehiculo');
 const manual = document.querySelector("#manual");
 const form = document.querySelector("form");
@@ -33,10 +24,45 @@ const inputConsumo = document.querySelector("#inputCons");
 const inputDistancia = document.querySelector("#distancia");
 const iV= document.querySelector("#iV");
 const gastar = document.querySelector("#gastar");
-const botonReset = document.querySelector("#boton-reset");
 const h3 = document.querySelector("h3");
 
+
+//objetos------------------------------------------------------------------------------------
+class Usuario{// clase constructora o como se llame --------------------------------------------------
+    constructor (nombre, dominio, email){
+        this.nombre = nombre;
+        this.dominio = dominio;
+        this.email = email;
+    }
+}
+
+
 //Funciones-------------------------------------------------------------------------
+const registroUsuarios=()=>{
+    const nuevoUsuario = new Usuario(inputNombre.value, inputDominio.value, inputEmail.value);//instancia de objeto--------------
+    // usuarios.push(nuevoUsuario);
+    const enJSON2 = JSON.stringify(nuevoUsuario);
+    sessionStorage.setItem(sessionStorage.length+1, enJSON2);
+}
+
+const listarUsuarios=()=>{
+    if(sessionStorage.length > 1 ){
+        for(let i = 0; i < sessionStorage.length; i++){
+            let clave = sessionStorage.key(i);
+            let esteUsuario =JSON.parse(sessionStorage.getItem(clave));
+            if (esteUsuario.nombre !== undefined){//---- esto es porq live server inyecta datos al sessionStorage
+            $(".usuarios").append(`
+            <div >
+                    <p><b>Usuario:</b> ${esteUsuario.nombre} <b>Patente:</b> ${esteUsuario.dominio} <b>email:</b> ${esteUsuario.email}</p><br>
+            </div>`)}
+        }
+    }
+    else{
+        $(".usuarios").append(`
+            <h2>No hay datos</h2>`);
+    }
+}
+
 const radioVehiculo = ()=>{
     for(i=0; i<vehiculo.length; i++){
 
@@ -113,7 +139,7 @@ const limpiar = ()=>{
     h3.innerHTML =``;
     gastar.innerHTML = "$.......";
     manual.setAttribute("class","invisible");
-    botonClick.removeAttribute("disabled");
+    botonCalcular.removeAttribute("disabled");
     console.clear ();
 }
 
@@ -145,7 +171,6 @@ const guardarLS = ()=>{  //aplico un poco de local storage y JSON---------------
 
 const viajesAnteriores =  ()=>{// localStorage y JSON(trae objetos )-------------------------
     if(localStorage.length > 0 ){
-
         for(let i = 0; i < localStorage.length; i++){
             let clave = localStorage.key(i);
             let viaje =JSON.parse(localStorage.getItem(clave));
@@ -157,14 +182,18 @@ const viajesAnteriores =  ()=>{// localStorage y JSON(trae objetos )------------
         }
         animacion(2000)
     }
+    else{
+        $(".viajes").append(`
+            <h2>No hay datos</h2>`);
+    }
 }
 
 const animacion= (ms)=>{//-----animaciones con jquery----
-    $(".viajes").slideDown(ms, ()=>{//1er callback ----- --
-        $(".viajes div:nth-child(odd)").css({"background-color":"lightgreen","border-radius": "10%" });
-        $(".viajes div:nth-child(even)").css({"background-color":"lightblue","border-radius": "10%" });
+    $(".viajes").show(ms, ()=>{//1er callback ----- --
+        $(".viajes div:nth-child(odd)").css({"background-color":"lightgreen","border-radius": "2%" });
+        $(".viajes div:nth-child(even)").css({"background-color":"lightblue","border-radius": "2%" });
         $(`.este`).animate( {opacity:"1"}, ms*2, ()=>{//2do callback--------
-            $(".viajes div").css({"margin":"2px","border-radius": "100%" })
+            $(".viajes div").css({"margin":"2px","color": "gray" })
         });
     })
 }
@@ -179,7 +208,7 @@ form.addEventListener("change", ()=>{
     }
 })
 
-botonClick.addEventListener("click", (evt)=>{
+botonCalcular.addEventListener("click", (evt)=>{
     evt.preventDefault();
     validar();
     console.log("correcto" + correcto);
@@ -190,32 +219,38 @@ botonClick.addEventListener("click", (evt)=>{
         costo();
         guardarLS();
     }
-    botonClick.setAttribute( "disabled", true) ;
+    botonCalcular.setAttribute( "disabled", true) ;
 });
 
+document.addEventListener('DOMContentLoaded', function() {//modal----
+    var elems = document.querySelectorAll('.modal');
+    var instances = M.Modal.init(elems);
+});
 
 //jQuery (eventos)-----------------------------------------
 $(document).ready((function(){
     console.log("jquery activado");
-    $(`.viajes`).hide();
-    viajesAnteriores();
-
-    
-}));
+    }));
 
 $("#boton-reset").click((e)=> {
     limpiar();
+});
+
+$("#btn-viajes").click((e)=> {
     $(".viajes").empty();
     viajesAnteriores();
 });
 
-// $.ajax({  //-------------------esto no me anduvo :(
-//     method: "POST",
-//     url: ruta,
-//     data: JSON.stringify(tipoVehiculosO),
-// })
+$("#btn-guardarUsuario").click((e)=> {
+    registroUsuarios()
+});
+
+$("#btn-listaUsuarios").click((e)=> {
+    listarUsuarios()
+});
+
 
 //Fetch API------------------------------------
 fetch(ruta)
 .then((response)=>response.json())
-.then((json)=>tipoVehiculos.push(json), console.log(tipoVehiculos));
+.then((json)=>tipoVehiculos.push(json));
