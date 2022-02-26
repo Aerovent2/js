@@ -23,6 +23,9 @@
     opacity: 0;
 }
 
+.ok{
+    color: green;
+}
 section{
     border-radius: 2%;
     min-height: 100vh;

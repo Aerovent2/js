@@ -12,6 +12,8 @@ const tipoVehiculos = [ ];
 
 //Selectores--------------------------------------------------------------------------------
 const botonCalcular = document.querySelector("#boton-calcular");
+const botonRegistro = document.querySelector("#btn-registro");
+const botonGuardarUsuario = document.querySelector("#btn-guardarUsuario");
 const inputPrecio= document.querySelector("#inputPrecio");
 const inputNombre= document.querySelector("#inputNombre");
 const inputDominio= document.querySelector("#inputDominio");
@@ -25,7 +27,7 @@ const inputDistancia = document.querySelector("#distancia");
 const iV= document.querySelector("#iV");
 const gastar = document.querySelector("#gastar");
 const h3 = document.querySelector("h3");
-
+const inputRegistro = document.querySelector("#registro")
 
 //objetos------------------------------------------------------------------------------------
 class Usuario{// clase constructora o como se llame --------------------------------------------------
@@ -38,30 +40,7 @@ class Usuario{// clase constructora o como se llame ----------------------------
 
 
 //Funciones-------------------------------------------------------------------------
-const registroUsuarios=()=>{
-    const nuevoUsuario = new Usuario(inputNombre.value, inputDominio.value, inputEmail.value);//instancia de objeto--------------
-    // usuarios.push(nuevoUsuario);
-    const enJSON2 = JSON.stringify(nuevoUsuario);
-    sessionStorage.setItem(sessionStorage.length+1, enJSON2);
-}
 
-const listarUsuarios=()=>{
-    if(sessionStorage.length > 1 ){
-        for(let i = 0; i < sessionStorage.length; i++){
-            let clave = sessionStorage.key(i);
-            let esteUsuario =JSON.parse(sessionStorage.getItem(clave));
-            if (esteUsuario.nombre !== undefined){//---- esto es porq live server inyecta datos al sessionStorage
-            $(".usuarios").append(`
-            <div >
-                    <p><b>Usuario:</b> ${esteUsuario.nombre} <b>Patente:</b> ${esteUsuario.dominio} <b>email:</b> ${esteUsuario.email}</p><br>
-            </div>`)}
-        }
-    }
-    else{
-        $(".usuarios").append(`
-            <h2>No hay datos</h2>`);
-    }
-}
 
 const radioVehiculo = ()=>{
     for(i=0; i<vehiculo.length; i++){
@@ -187,6 +166,38 @@ const viajesAnteriores =  ()=>{// localStorage y JSON(trae objetos )------------
             <h2>No hay datos</h2>`);
     }
 }
+const registroUsuarios=()=>{
+    if(inputNombre.value !==""&& inputDominio.value!==""&& inputEmail.value!==""){
+        const nuevoUsuario = new Usuario(inputNombre.value, inputDominio.value, inputEmail.value);//instancia de objeto--------------
+        const enJSON2 = JSON.stringify(nuevoUsuario);
+        sessionStorage.setItem(sessionStorage.length+1, enJSON2);
+        inputNombre.value=``;
+        inputDominio.value=``;
+        inputEmail.value=``;
+        $(".guardadoOK").append(`
+        <h2 class="ok">Usuario Guardado</h2>`);
+        botonGuardarUsuario.setAttribute("disabled", true)
+        inputRegistro.setAttribute("class","invisible")
+    }
+}
+
+const listarUsuarios=()=>{
+    if(sessionStorage.length > 1 ){
+        for(let i = 0; i < sessionStorage.length; i++){
+            let clave = sessionStorage.key(i);
+            let esteUsuario =JSON.parse(sessionStorage.getItem(clave));
+            if (esteUsuario.nombre !== undefined){//---- esto es porq live server inyecta datos al sessionStorage
+            $(".usuarios").append(`
+            <div >
+                    <p><b>Usuario:</b> ${esteUsuario.nombre} <b>Patente:</b> ${esteUsuario.dominio} <b>email:</b> ${esteUsuario.email}</p><br>
+            </div>`)}
+        }
+    }
+    else{
+        $(".usuarios").append(`
+            <h2>No hay datos</h2>`);
+    }
+}
 
 const animacion= (ms)=>{//-----animaciones con jquery----
     $(".viajes").show(ms, ()=>{//1er callback ----- --
@@ -222,6 +233,12 @@ botonCalcular.addEventListener("click", (evt)=>{
     botonCalcular.setAttribute( "disabled", true) ;
 });
 
+botonRegistro.addEventListener("click",()=>{
+    botonGuardarUsuario.removeAttribute("disabled")
+    inputRegistro.removeAttribute("class","invisible")
+    $(".guardadoOK").empty();
+});
+
 document.addEventListener('DOMContentLoaded', function() {//modal----
     var elems = document.querySelectorAll('.modal');
     var instances = M.Modal.init(elems);
@@ -241,11 +258,13 @@ $("#btn-viajes").click((e)=> {
     viajesAnteriores();
 });
 
+
 $("#btn-guardarUsuario").click((e)=> {
     registroUsuarios()
 });
 
 $("#btn-listaUsuarios").click((e)=> {
+    $(".usuarios").empty();
     listarUsuarios()
 });
 
